@@ -1,0 +1,20 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+p:hover {
+    background-color: blueviolet;
+    color: aliceblue;
+}
+
+h1:hover {
+    color: tomato;
+    background-color: rgb(36, 28, 28);
+}
+
+h2:hover {
+    color: aqua;
+    background-color: rgba(35, 48, 9, 0.719);
+}

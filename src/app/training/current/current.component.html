@@ -1,0 +1,6 @@
+<section class="container">
+    <mat-progress-spinner mode="determinate" [value]="progress"></mat-progress-spinner>
+    <p>training in progress</p>
+    <h1>{{progress}}</h1>
+    <button mat-raised-button (click)="onStop()">Stop</button>
+</section>
