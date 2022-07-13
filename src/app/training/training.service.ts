@@ -47,7 +47,7 @@ export class TrainingService {
     }
 
     getCompletedOrCancelledExercises() {
-        console.log(this.exercises)
         return this.exercises.slice()
+        
     }
 }

@@ -46,7 +46,7 @@ export class CurrentComponent implements OnInit {
     }) //pass data to the dialog component
 
     dialogRef.afterClosed().subscribe(res => {
-      console.log(res)
+      // console.log(res)
       if (res) {
         // this.exitTraining.emit()
         this.trainingService.cancelExercise(this.progress)

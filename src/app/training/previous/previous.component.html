@@ -1,34 +1,22 @@
 <div>
-    <mat-table #table [dataSource]="dataSource">
-        <!-- define the columns of the table -->
-        <ng-container matColumnDef="date">
-            <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.d | date}}</mat-cell>
-        </ng-container>
+  <table>
+    <ng-container *ngFor="let ex of exercises; trackBy: trackItem">
+      <tr>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Calories</th>
+        <th>Duration</th>
+        <th>State</th>
+      </tr>
 
-        <ng-container matColumnDef="name">
-            <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
-        </ng-container>
+      <tr>
+        <td>{{ ex.name }}</td>
+        <td>{{ ex.date }}</td>
+        <td>{{ ex.caloriesBurned }}</td>
+        <td>{{ ex.duration }}</td>
+        <td>{{ ex.state }}</td>
+      </tr>
 
-        <ng-container matColumnDef="calories">
-            <mat-header-cell *matHeaderCellDef>Calories</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.calories | number}}</mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="duration">
-            <mat-header-cell *matHeaderCellDef>Duration</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.duration}}</mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="state">
-            <mat-header-cell *matHeaderCellDef>State</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.state}}</mat-cell>
-        </ng-container>
-
-        <!-- define the header row -->
-        <mat-header-row *matHeaderRowDef="displayedColumns" ></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-
-    </mat-table>
+    </ng-container>
+  </table>
 </div>
