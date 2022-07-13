@@ -9,17 +9,9 @@ import { Observable } from 'rxjs';
 })
 export class LoginComponent implements OnInit {
 
-  dataSream$ = new Observable<number>;
-
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
-
-  }
-
-  onClick(){
-    this.dataSream$.subscribe()
-    console.log(this.dataSream$)
   }
 
   onSubmit(form: any) {
