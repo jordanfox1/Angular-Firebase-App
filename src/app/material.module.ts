@@ -13,12 +13,14 @@ import {MatSelectModule} from '@angular/material/select'
 import { MatOptionModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from "@angular/material/dialog";
+import {MatTableModule} from '@angular/material/table'
 
 import { NgModule } from '@angular/core';
 import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   imports: [
+    MatTableModule,
     MatDialogModule,
     MatProgressSpinnerModule,
     MatOptionModule,
@@ -38,6 +40,7 @@ import { MatNativeDateModule } from '@angular/material/core';
   ],
   
   exports: [
+    MatTableModule,
     MatDialogModule,
     MatProgressSpinnerModule,
     MatOptionModule,

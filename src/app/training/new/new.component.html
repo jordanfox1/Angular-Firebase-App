@@ -1,31 +1,44 @@
 <main class="new-exc">
   <section>
-    <mat-card class="card">
-      <mat-card-title>
-        {{ exc.name }}
-      </mat-card-title>
-      <mat-card-content>
-        {{ exc.description }}
-      </mat-card-content>
-      <mat-card-content>
-        <mat-form-field hintLabel="Max 10 characters" appearance="fill">
-          <mat-label>Enter an excercise to add to the list</mat-label>
-          <input matInput #input maxlength="10" placeholder="Ex. Nougat" />
-          <mat-hint align="end">{{ input.value?.length || 0 }}/10</mat-hint>
-        </mat-form-field>
-        <button mat-button color="primary" type="submit">Add</button>
-        <br>
-        <mat-form-field appearance="fill">
-          <mat-label>Select from the list</mat-label>
-          <mat-select>
-            <mat-option value="option">Option</mat-option>
-          </mat-select>
-          <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
-        </mat-form-field>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button type="submit" (click)="onStart()">sTaRt</button>
-      </mat-card-actions>
-    </mat-card>
+    <form (ngSubmit)="onStart(f)" #f="ngForm" >
+      <mat-card class="card">
+        <mat-card-title>
+          {{ exc.name }}
+        </mat-card-title>
+        <mat-card-content>
+          {{ exc.description }}
+        </mat-card-content>
+        <mat-card-content>
+          <mat-form-field hintLabel="Max 10 characters" appearance="fill">
+            <mat-label>Enter an excercise to add to the list</mat-label>
+            <input matInput #input maxlength="10" placeholder="Ex. Hiking" />
+            <mat-hint align="end">{{ input.value?.length || 0 }}/10</mat-hint>
+          </mat-form-field>
+          <button
+            mat-button
+            color="primary"
+            (click)="addExercise()"
+            type="submit"
+          >
+            Add
+          </button>
+          <br />
+          <mat-form-field appearance="fill">
+            <mat-label>Select from the list</mat-label>
+            <mat-select ngModel name="exercise" required >
+              <mat-option
+                *ngFor="let exc of availableExercises"
+                [value]="exc.id"
+                >{{ exc.name }}</mat-option
+              >
+            </mat-select>
+            <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+          </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button type="submit" [disabled]="f.invalid">sTaRt</button>
+        </mat-card-actions>
+      </mat-card>
+    </form>
   </section>
 </main>
