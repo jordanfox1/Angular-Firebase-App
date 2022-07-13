@@ -12,12 +12,14 @@ import {MatCardModule} from '@angular/material/card'
 import {MatSelectModule} from '@angular/material/select'
 import { MatOptionModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDialogModule } from "@angular/material/dialog";
 
 import { NgModule } from '@angular/core';
 import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   imports: [
+    MatDialogModule,
     MatProgressSpinnerModule,
     MatOptionModule,
     MatSelectModule,
@@ -36,6 +38,7 @@ import { MatNativeDateModule } from '@angular/material/core';
   ],
   
   exports: [
+    MatDialogModule,
     MatProgressSpinnerModule,
     MatOptionModule,
     MatSelectModule,

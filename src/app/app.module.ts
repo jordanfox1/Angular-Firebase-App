@@ -16,9 +16,12 @@ import { PreviousComponent } from './training/previous/previous.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
+import { StopTrainingComponent } from './training/current/stop-training.component';
+import { AuthService } from './auth/auth.service';
 
 @NgModule({
   declarations: [
+    StopTrainingComponent,
     AppComponent,
     SignupComponent,
     LoginComponent,
@@ -38,7 +41,8 @@ import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.com
     MaterialModule,
     FormsModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [AuthService],
+  bootstrap: [AppComponent],
+  entryComponents: [StopTrainingComponent] // all components that neither instantiated by having their selector in template, nor by routing
 })
 export class AppModule { }
