@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Exercise } from '../exercise.model';
 import { TrainingService } from '../training.service';
@@ -13,16 +13,11 @@ export class PreviousComponent implements OnInit {
   // dataSource = new MatTableDataSource<Exercise>();
   exercises: Exercise[] = []
 
-  constructor(private trainingService: TrainingService, private changeDetection: ChangeDetectorRef ) { }
+  constructor(private trainingService: TrainingService ) { }
 
   ngOnInit(): void {
     // this.dataSource.data = this.trainingService.getCompletedOrCancelledExercises()
     this.exercises = this.trainingService.getCompletedOrCancelledExercises();
-    this.changeDetection.detectChanges();
-  }
-
-  public trackItem (index: number, item: any) {
-    return item.trackId;
   }
 
 }

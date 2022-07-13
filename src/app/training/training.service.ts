@@ -18,7 +18,7 @@ export class TrainingService {
 
     private exercises: Exercise[] = []
     private currentExercise: Exercise | any
-    // create an obervable which will emit whenever the currently performed execise changes
+    // create an obervable which will emit whenever the currently performed exercise changes
     public exerciseChanged = new Subject<any>()
 
     getAvailableExercises() {
