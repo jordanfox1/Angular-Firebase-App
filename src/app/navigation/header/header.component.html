@@ -6,8 +6,8 @@
     </div>
     <div>logo</div>
     <div id="link-container">
-      <a routerLink="/signup">Sign up</a>
-      <a routerLink="/login">Log in</a>
-      <a routerLink="/training">Training</a>
+      <a *ngIf="!isAuthenticatedUser" routerLink="/signup">Sign up</a>
+      <a *ngIf="!isAuthenticatedUser" routerLink="/login">Log in</a>
+      <a *ngIf="isAuthenticatedUser"routerLink="/training">Training</a>
     </div>
   </mat-toolbar>
