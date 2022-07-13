@@ -22,6 +22,7 @@ import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { FIREBASE_OPTIONS } from '@angular/fire/compat'
 
 @NgModule({
   declarations: [
@@ -48,7 +49,7 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore())
   ],
-  providers: [AuthService],
+  providers: [AuthService, { provide: FIREBASE_OPTIONS, useValue: environment.firebase }],
   bootstrap: [AppComponent],
   entryComponents: [StopTrainingComponent] // all components that neither instantiated by having their selector in template, nor by routing
 })
