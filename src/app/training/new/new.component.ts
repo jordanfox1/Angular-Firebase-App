@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { TrainingService } from './../training.service';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-// import {Firestore, collectionData, collection} from '@angular/fire/firestore'
+import {Firestore, collectionData, collection, getDocs} from '@angular/fire/firestore'
 import {AngularFirestore} from '@angular/fire/compat/firestore'
 
 @Component({
@@ -20,7 +20,8 @@ export class NewComponent implements OnInit {
 
   constructor(
     private trainingService: TrainingService, 
-    // private firestore: Firestore,
+    public firestore: Firestore,
+
     private db: AngularFirestore
   ) {
     // collection
@@ -35,6 +36,11 @@ export class NewComponent implements OnInit {
     this.db.collection('availableExercise').valueChanges().subscribe((result: any) => {
       console.log(result, 'AAAAA')
     })
+
+    const dbInstance = collection(this.firestore, '/avaliableExercises')
+    getDocs(dbInstance).then(res => console.log(res.docs.map((item) => {
+      return { ...item.data(), id: item.id}
+    })))
   }
 
   onStart(f: NgForm): void {
