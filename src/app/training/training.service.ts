@@ -25,7 +25,6 @@ export class TrainingService {
             })
         ).subscribe((exercises: Array<any>) => {
             this.availableExercises = exercises
-            console.log(exercises)
             this.exercisesChanged.next([...this.availableExercises]) //emit an event every time the exercises on firebase update/get fetched
         })
     }
