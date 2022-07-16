@@ -27,7 +27,7 @@
             <mat-label>Select from the list</mat-label>
             <mat-select ngModel name="exercise" required >
               <mat-option
-                *ngFor="let exc of availableExercises"
+                *ngFor="let exc of exercises$"
                 [value]="exc.id"
                 >{{ exc.name }}</mat-option
               >
@@ -42,3 +42,7 @@
     </form>
   </section>
 </main>
+<!-- <p>{{exercises$}}</p> -->
+<!-- <div *ngFor="let e of exercises$;" >
+<p>{{e.name} foo</p>
+</div> -->

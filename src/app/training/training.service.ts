@@ -1,28 +1,33 @@
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Injectable } from '@angular/core';
 import { Exercise } from './exercise.model';
-import { Subject } from 'rxjs';
+import { map, Subject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
 })
 export class TrainingService {
 
-    private availableExercises: Exercise[] = [
-        { id: 'push-ups', name: 'Push Ups', duration: 30, caloriesBurned: 8 },
-        { id: 'bodyweight-squats', name: 'Bodyweight Squats', duration: 20, caloriesBurned: 8 },
-        { id: 'bicep-curl', name: 'Bicep Curls', duration: 10, caloriesBurned: 8 },
-        { id: 'walking', name: 'walking', duration: 20, caloriesBurned: 8 },
-        { id: 'jogging', name: 'Jogging', duration: 140, caloriesBurned: 8 },
-    ];
-    constructor() { }
-
+    private availableExercises: Array<any>
+    constructor(private db: AngularFirestore) { }
     private exercises: Exercise[] = []
     private currentExercise: Exercise | any
     // create an obervable which will emit whenever the currently performed exercise changes
     public exerciseChanged = new Subject<any>()
+    exercisesChanged = new Subject<any>()
 
-    getAvailableExercises() {
-        return this.availableExercises.slice();
+    fetchAvailableExercisesFromDb() {
+        this.db.collection('/avaliableExercises').snapshotChanges().pipe(
+            map(v => {
+                return v.map(e => {
+                    return e.payload.doc.data() // return an Observable array of exercises
+                })
+            })
+        ).subscribe((exercises: Array<any>) => {
+            this.availableExercises = exercises
+            console.log(exercises)
+            this.exercisesChanged.next([...this.availableExercises]) //emit an event every time the exercises on firebase update/get fetched
+        })
     }
 
     startExcercise(selectedId: string) {
@@ -48,6 +53,6 @@ export class TrainingService {
 
     getCompletedOrCancelledExercises() {
         return this.exercises.slice()
-        
+
     }
 }
