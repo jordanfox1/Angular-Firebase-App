@@ -39,13 +39,29 @@ export class TrainingService {
     }
 
     completeExercise() {
-        this.exercises.push({ ...this.currentExercise, date: new Date(), state: 'completed' })
+        this.addDataToDatabase({
+            ...this.currentExercise,
+            date: new Date(),
+            state: 'complete'
+        })
         this.currentExercise = null
         this.exerciseChanged.next(null)
+
+        // this.exercises.push({ ...this.currentExercise, date: new Date(), state: 'completed' })
+        // this.currentExercise = null
+        // this.exerciseChanged.next(null)
     }
 
     cancelExercise(progress: number) {
-        this.exercises.push({ ...this.currentExercise, date: new Date(), state: 'cancelled', duration: this.currentExercise?.duration * (progress / 100), calories: this.currentExercise.duration * (progress / 100) })
+        this.addDataToDatabase({
+            ...this.currentExercise,
+            duration: this.currentExercise?.duration * (progress / 100),
+            calories: this.currentExercise?.calories * (progress / 100),
+            date: new Date(),
+            state: 'cancelled'
+        })
+        
+        // this.exercises.push({ ...this.currentExercise, date: new Date(), state: 'cancelled', duration: this.currentExercise?.duration * (progress / 100), calories: this.currentExercise.duration * (progress / 100) })
         this.currentExercise = null
         this.exerciseChanged.next(null)
     }
@@ -53,5 +69,10 @@ export class TrainingService {
     getCompletedOrCancelledExercises() {
         return this.exercises.slice()
 
+    }
+
+    private addDataToDatabase(exc: Exercise) {
+        console.log(exc)
+        this.db.collection('finsihedExercises').add(exc)
     }
 }
