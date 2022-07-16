@@ -55,5 +55,5 @@ export class CurrentComponent implements OnInit {
       }
     })
   }
-}
+} // TEST COMMIT //
 
