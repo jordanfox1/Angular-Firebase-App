@@ -2,12 +2,14 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Injectable } from '@angular/core';
 import { Exercise } from './exercise.model';
 import { map, Subject } from 'rxjs';
+import { Subscription } from "rxjs";
+
 
 @Injectable({
     providedIn: 'root'
 })
 export class TrainingService {
-
+    private firebaseSubscriptions: Subscription[] = []
     private availableExercises: Array<any>
     constructor(private db: AngularFirestore) { }
     private exercises: Exercise[] = []
@@ -15,9 +17,10 @@ export class TrainingService {
     // create an obervable which will emit whenever the currently performed exercise changes
     public exerciseChanged = new Subject<any>()
     exercisesChanged = new Subject<any>()
+    finishedExercisesChanged = new Subject<any>()
 
     fetchAvailableExercisesFromDb() {
-        this.db.collection('/avaliableExercises').snapshotChanges().pipe(
+        this.firebaseSubscriptions.push(this.db.collection('/avaliableExercises').snapshotChanges().pipe(
             map(v => {
                 return v.map(e => {
                     return e.payload.doc.data() // return an Observable array of exercises
@@ -26,7 +29,7 @@ export class TrainingService {
         ).subscribe((exercises: Array<any>) => {
             this.availableExercises = exercises
             this.exercisesChanged.next([...this.availableExercises]) //emit an event every time the exercises on firebase update/get fetched
-        })
+        }))
     }
 
     startExcercise(selectedId: string) {
@@ -69,8 +72,16 @@ export class TrainingService {
     }
 
     getCompletedOrCancelledExercises() {
+        this.firebaseSubscriptions.push(this.db.collection('/finishedExercises')
+        .valueChanges()
+        .subscribe((exercises: any) => {
+            this.finishedExercisesChanged.next(exercises)
+        } ))
         return this.exercises.slice()
+    }
 
+    cancelSubscriptions() {
+        this.firebaseSubscriptions.forEach(sub => sub.unsubscribe())
     }
 
     private addDataToDatabase(exc: Exercise) {
