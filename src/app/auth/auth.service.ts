@@ -6,6 +6,8 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { ThisReceiver } from "@angular/compiler";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { UIService } from '../shared/ui.service';
 // AngularFire stores, manages and sends firebase auth token behind the scenes, so we don't need to handle that. we can simply call the auth functions. 
 
 @Injectable({
@@ -17,9 +19,9 @@ export class AuthService {
     // private user: User | null | undefined;
     private isAuthenticatedUser = false
 
-    constructor(private router: Router, private afAuth: AngularFireAuth, private trainingService: TrainingService) {}
+    constructor(private uiService: UIService, private snackbar: MatSnackBar, private router: Router, private afAuth: AngularFireAuth, private trainingService: TrainingService) { }
 
-    //call this when the app starts
+    //call this when the app
     initAuthListener() {
         // emits an event onAuthStateChanged()
         this.afAuth.authState.subscribe(user => {
@@ -37,16 +39,26 @@ export class AuthService {
         })
     }
 
-    signUp(authData: AuthData) {        
+    signUp(authData: AuthData) {
         // this.user = {
         //     email: authData.email,
         //     userId: Math.round(Math.random() * 10000).toString()
         // };
         // // whenever we register a user, we call authChange and pass it a value of true
         // this.authChange.next(true)// .next(cbf) is used like .emit() in angular
+        this.uiService.loadingStateChanged.next(true)
         this.afAuth.createUserWithEmailAndPassword(authData.email, authData.password)
-        .then(res => console.log(res)).catch(err => console.log(err))
+            .then(res => {
+                this.uiService.loadingStateChanged.next(false)
+            })
+            .catch(err => {
+                this.uiService.loadingStateChanged.next(false)
+                this.snackbar.open(err.message, '', {
+                    duration: 3000
+                })
+            })
         this.handleSuccessfulAuthentication()
+
     }
 
     login(authData: AuthData) {
@@ -56,27 +68,36 @@ export class AuthService {
         // }
         // // whenever we login a user, we call authChange and pass it a value of true
         // this.authChange.next(true)// .next(cbf) is used like .emit() in angular
-
+        this.uiService.loadingStateChanged.next(true)
         this.afAuth.signInWithEmailAndPassword(authData.email, authData.password)
-        .then(res => console.log(res)).catch(err => console.log(err))
+            .then(res => {
+                this.uiService.loadingStateChanged.next(false)
+            })
+            .catch(err => {
+                this.uiService.loadingStateChanged.next(false)
+                this.snackbar.open(err.message, '', {
+                    duration: 3000
+                })
+            })
         this.handleSuccessfulAuthentication()
     }
 
     logout() {
         // this.user = null;
+        this.uiService.loadingStateChanged.next(true)
         this.afAuth.signOut()
         // cancel all subscribed observables when logging out
-
+        this.uiService.loadingStateChanged.next(false)
     }
-    
+
     // getUser() {
     //     return { ...this.user };
     // }
 
     isAuthenticated() {
-       return this.isAuthenticatedUser;
+        return this.isAuthenticatedUser;
     }
-    
+
     private handleSuccessfulAuthentication() {
 
     }
