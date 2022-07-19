@@ -7,8 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
-import { SignupComponent } from './auth/signup/signup.component';
-import { LoginComponent } from './auth/login/login.component';
 import { TrainingComponent } from './training/training.component';
 import { CurrentComponent } from './training/current/current.component';
 import { NewComponent } from './training/new/new.component';
@@ -18,10 +16,10 @@ import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { StopTrainingComponent } from './training/current/stop-training.component';
 import { AuthService } from './auth/auth.service';
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
-import { provideAuth,getAuth } from '@angular/fire/auth';
-import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat'
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { UIService } from './shared/ui.service';
@@ -30,8 +28,6 @@ import { UIService } from './shared/ui.service';
   declarations: [
     StopTrainingComponent,
     AppComponent,
-    SignupComponent,
-    LoginComponent,
     TrainingComponent,
     CurrentComponent,
     NewComponent,

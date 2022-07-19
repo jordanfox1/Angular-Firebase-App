@@ -1,3 +1,4 @@
+import { UIService } from './../shared/ui.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Injectable } from '@angular/core';
 import { Exercise } from './exercise.model';
@@ -11,7 +12,7 @@ import { Subscription } from "rxjs";
 export class TrainingService {
     private firebaseSubscriptions: Subscription[] = []
     private availableExercises: Array<any>
-    constructor(private db: AngularFirestore) { }
+    constructor(private db: AngularFirestore, private uiService: UIService) { }
     private exercises: Exercise[] = []
     private currentExercise: Exercise | any
     // create an obervable which will emit whenever the currently performed exercise changes
@@ -29,6 +30,10 @@ export class TrainingService {
         ).subscribe((exercises: Array<any>) => {
             this.availableExercises = exercises
             this.exercisesChanged.next([...this.availableExercises]) //emit an event every time the exercises on firebase update/get fetched
+        }, error => {
+            this.uiService.loadingStateChanged.next(false)
+            this.uiService.showSanckbar('Fetching Exercises failed... tray again later', null, 3000)
+            console.log(error.message)
         }))
     }
 
