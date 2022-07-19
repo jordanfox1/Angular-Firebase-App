@@ -53,9 +53,7 @@ export class AuthService {
             })
             .catch(err => {
                 this.uiService.loadingStateChanged.next(false)
-                this.snackbar.open(err.message, '', {
-                    duration: 3000
-                })
+                this.uiService.showSanckbar(err.message, null, 3000)
             })
         this.handleSuccessfulAuthentication()
 
@@ -75,9 +73,7 @@ export class AuthService {
             })
             .catch(err => {
                 this.uiService.loadingStateChanged.next(false)
-                this.snackbar.open(err.message, '', {
-                    duration: 3000
-                })
+                this.uiService.showSanckbar(err.message, null, 3000)
             })
         this.handleSuccessfulAuthentication()
     }
