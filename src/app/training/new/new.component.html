@@ -1,6 +1,6 @@
 <main class="new-exc">
   <section>
-    <form (ngSubmit)="onStart(f)" #f="ngForm" >
+    <form (ngSubmit)="onStart(f)" #f="ngForm">
       <mat-card class="card">
         <mat-card-title>
           {{ exc.name }}
@@ -24,12 +24,10 @@
           <br />
           <mat-form-field appearance="fill">
             <mat-label>Select from the list</mat-label>
-            <mat-select ngModel name="exercise" required >
-              <mat-option
-                *ngFor="let exc of exercises$"
-                [value]="exc.name"
-                >{{ exc.name }}</mat-option
-              >
+            <mat-select ngModel name="exercise" required>
+              <mat-option *ngFor="let exc of exercises$" [value]="exc.name">{{
+                exc.name
+              }}</mat-option>
             </mat-select>
             <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
           </mat-form-field>

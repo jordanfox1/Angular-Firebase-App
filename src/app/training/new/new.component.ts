@@ -3,8 +3,8 @@ import { filter, Observable, Subscription } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { TrainingService } from './../training.service';
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
-import {Firestore, collectionData, collection, getDocs} from '@angular/fire/firestore'
-import {AngularFirestore} from '@angular/fire/compat/firestore'
+import { Firestore, collectionData, collection, getDocs } from '@angular/fire/firestore'
+import { AngularFirestore } from '@angular/fire/compat/firestore'
 import { map } from 'rxjs/internal/operators/map';
 
 @Component({
@@ -22,7 +22,7 @@ export class NewComponent implements OnInit, OnDestroy {
   exerciseSubscription: Subscription
 
   constructor(
-    private trainingService: TrainingService, 
+    private trainingService: TrainingService,
     public firestore: Firestore,
     private db: AngularFirestore
   ) { }
@@ -47,6 +47,8 @@ export class NewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.exerciseSubscription.unsubscribe()
+    if (this.exerciseSubscription) {
+      this.exerciseSubscription.unsubscribe()
+    }
   }
 }
