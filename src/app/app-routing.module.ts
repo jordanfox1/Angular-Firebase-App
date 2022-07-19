@@ -9,8 +9,6 @@ import { WelcomeComponent } from './welcome/welcome.component';
 const routes: Routes = [
   { path: '', component: WelcomeComponent},
   { path: 'training', component: TrainingComponent, canActivate: [AuthGuard] }, //we need to provide the auth guard service
-  { path: 'signup', component: SignupComponent },
-  { path: 'login', component: LoginComponent }
 ];
 
 @NgModule({
