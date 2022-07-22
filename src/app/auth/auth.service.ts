@@ -11,7 +11,7 @@ import { UIService } from '../shared/ui.service';
 import {Store} from '@ngrx/store'
 import * as fromRoot from '../app.reducer'
 import * as UI from '../shared/ui.actions'
-// MatProgressSpinner
+import * as Auth from './auth.actions'
 // AngularFire stores, manages and sends firebase auth token behind the scenes, so we don't need to handle that. we can simply call the auth functions. 
 
 @Injectable({
@@ -30,12 +30,15 @@ export class AuthService {
         // emits an event onAuthStateChanged()
         this.afAuth.authState.subscribe(user => {
             if (user) {
+                this.store.dispatch(new Auth.SetAuthenticated())
                 this.isAuthenticatedUser = true
                 this.authChange.next(true);
                 this.router.navigate(['/training'])
             } else {
+                
                 this.trainingService.cancelSubscriptions()
                 // whenever we logout a user, we call authChange and pass it a value of false
+                this.store.dispatch(new Auth.SetUnauthenticated())
                 this.authChange.next(false)// .next(cbf) is used like .emit() in angular
                 this.isAuthenticatedUser = false
                 this.router.navigate(['login'])
