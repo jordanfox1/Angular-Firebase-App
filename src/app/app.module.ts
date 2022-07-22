@@ -25,6 +25,9 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { UIService } from './shared/ui.service';
 import { AuthModule } from './auth/auth.module';
 
+import{ StoreModule }from '@ngrx/store'
+import {appReducer} from './app.reducer'
+
 @NgModule({
   declarations: [
     StopTrainingComponent,
@@ -45,10 +48,12 @@ import { AuthModule } from './auth/auth.module';
     NoopAnimationsModule,
     BrowserAnimationsModule,
     MaterialModule,
+    StoreModule.forRoot({ ui: appReducer }),
     FormsModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore())
+    
   ],
   providers: [AuthService, { provide: FIREBASE_OPTIONS, useValue: environment.firebase }, UIService],
   bootstrap: [AppComponent],
