@@ -6,8 +6,8 @@
     </div>
     <div>Ng Fitness</div>
     <div id="link-container">
-      <a *ngIf="!isAuthenticatedUser" routerLink="/signup">Sign up</a>
-      <a *ngIf="!isAuthenticatedUser" routerLink="/login">Log in</a>
-      <a *ngIf="isAuthenticatedUser"routerLink="/training">Training</a>
+      <a *ngIf="!(isAuth$ | async)" routerLink="/signup">Sign up</a>
+      <a *ngIf="!(isAuth$ | async)" routerLink="/login">Log in</a>
+      <a *ngIf="isAuth$ | async" routerLink="/training">Training</a>
     </div>
   </mat-toolbar>
