@@ -1,3 +1,4 @@
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { TrainingService } from './../training/training.service';
 import { AuthData } from "./auth-data.model";
 import { User } from "./user.model";
@@ -8,6 +9,7 @@ import { ThisReceiver } from "@angular/compiler";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UIService } from '../shared/ui.service';
+// MatProgressSpinner
 // AngularFire stores, manages and sends firebase auth token behind the scenes, so we don't need to handle that. we can simply call the auth functions. 
 
 @Injectable({

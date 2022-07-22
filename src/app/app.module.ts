@@ -23,6 +23,7 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat'
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { UIService } from './shared/ui.service';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { UIService } from './shared/ui.service';
     SidenavListComponent
   ],
   imports: [
+    AuthModule,
     AngularFireAuthModule,
     BrowserModule,
     AppRoutingModule,
