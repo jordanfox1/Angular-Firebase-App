@@ -1,5 +1,5 @@
 // main reducer for application
-interface State {
+export interface State {
     isLoading: boolean;
 }
 

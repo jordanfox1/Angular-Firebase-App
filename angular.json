@@ -104,5 +104,7 @@
       }
     }
   },
-  "defaultProject": "fitness-tracker"
+  "cli": {
+    "analytics": false
+  }
 }

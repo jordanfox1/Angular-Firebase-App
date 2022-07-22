@@ -25,8 +25,8 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { UIService } from './shared/ui.service';
 import { AuthModule } from './auth/auth.module';
 
-import{ StoreModule }from '@ngrx/store'
-import {appReducer} from './app.reducer'
+import { StoreModule } from '@ngrx/store'
+import { appReducer } from './app.reducer'
 
 @NgModule({
   declarations: [
@@ -53,10 +53,8 @@ import {appReducer} from './app.reducer'
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore())
-    
   ],
   providers: [AuthService, { provide: FIREBASE_OPTIONS, useValue: environment.firebase }, UIService],
-  bootstrap: [AppComponent],
-  entryComponents: [StopTrainingComponent] // all components that neither instantiated by having their selector in template, nor by routing
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
