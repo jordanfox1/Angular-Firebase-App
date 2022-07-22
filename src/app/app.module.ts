@@ -26,7 +26,7 @@ import { UIService } from './shared/ui.service';
 import { AuthModule } from './auth/auth.module';
 
 import { StoreModule } from '@ngrx/store'
-import { appReducer } from './app.reducer'
+import { reducers } from './app.reducer'
 
 @NgModule({
   declarations: [
@@ -48,7 +48,7 @@ import { appReducer } from './app.reducer'
     NoopAnimationsModule,
     BrowserAnimationsModule,
     MaterialModule,
-    StoreModule.forRoot({ ui: appReducer }),
+    StoreModule.forRoot(reducers),
     FormsModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),

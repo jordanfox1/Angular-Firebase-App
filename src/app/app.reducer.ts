@@ -1,25 +1,14 @@
-// main reducer for application
+import * as fromUi from './shared/ui.reducer'
+import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store'
+
+//define application wide state
 export interface State {
-    isLoading: boolean;
+    ui: fromUi.State
 }
 
-const initialState = {
-    isLoading: false
-};
-
-export function appReducer(state = initialState, action: { type: any; }) {
-    
-    //we dispatch actions to change the store - we don't do it directly
-    switch (action.type) {
-        case 'START_LOADING':
-            return {
-                isLoading: true // return a new state with isLoading
-            }
-        case 'STOP_LOADING':
-            return {
-                isLoading: false
-            }    
-        default:
-            return state;
-    }
+export const reducers: any = {
+    ui: fromUi.uiReducer
 }
+
+export const getUiState = createFeatureSelector<fromUi.State>('ui')
+export const getIsLoading = createSelector(getUiState, fromUi.getIsLoading)

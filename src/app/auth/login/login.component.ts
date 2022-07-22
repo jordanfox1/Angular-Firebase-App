@@ -4,8 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import {Store} from '@ngrx/store'
-import * as fromApp from '../../app.reducer'
+import { Store } from '@ngrx/store'
+import * as fromRoot from '../../app.reducer'
 
 
 @Component({
@@ -16,12 +16,10 @@ import * as fromApp from '../../app.reducer'
 export class LoginComponent implements OnInit {
   isLoading: Observable<boolean>
   loadingSub: Subscription;
-  constructor(private authService: AuthService, private uiService: UIService, private store: Store<{ui: fromApp.State}>) { }
+  constructor(private authService: AuthService, private uiService: UIService, private store: Store<fromRoot.State>) { }
 
   ngOnInit(): void {
-    this.isLoading = this.store.pipe(
-      map(state => state.ui.isLoading)
-    ) //subscribe to the store
+    this.isLoading = this.store.select(fromRoot.getIsLoading) //subscribe to the store
 
     // this.loadingSub = this.uiService.loadingStateChanged.subscribe(loadingState => {
     //   this.isLoading = loadingState

@@ -9,7 +9,8 @@ import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UIService } from '../shared/ui.service';
 import {Store} from '@ngrx/store'
-import * as fromApp from '../app.reducer'
+import * as fromRoot from '../app.reducer'
+import * as UI from '../shared/ui.actions'
 // MatProgressSpinner
 // AngularFire stores, manages and sends firebase auth token behind the scenes, so we don't need to handle that. we can simply call the auth functions. 
 
@@ -22,7 +23,7 @@ export class AuthService {
     // private user: User | null | undefined;
     private isAuthenticatedUser = false
                 //accessing the gloabal store
-    constructor(private store: Store<{ui: fromApp.State}>, private uiService: UIService, private snackbar: MatSnackBar, private router: Router, private afAuth: AngularFireAuth, private trainingService: TrainingService) { }
+    constructor(private store: Store<fromRoot.State>, private uiService: UIService, private snackbar: MatSnackBar, private router: Router, private afAuth: AngularFireAuth, private trainingService: TrainingService) { }
 
     //call this when the app
     initAuthListener() {
@@ -50,14 +51,14 @@ export class AuthService {
         // // whenever we register a user, we call authChange and pass it a value of true
         // this.authChange.next(true)// .next(cbf) is used like .emit() in angular
 
-        this.store.dispatch({type: 'START_LOADING'}) //dispatch this action to the store
+        this.store.dispatch(new UI.StartLoading) //dispatch this action to the store
         this.afAuth.createUserWithEmailAndPassword(authData.email, authData.password)
             .then(res => {
                 this.uiService.loadingStateChanged.next(false)
             })
             .catch(err => {
                 // this.uiService.loadingStateChanged.next(false)
-                this.store.dispatch({type: 'STOP_LOADING'}) //dispatch to the store
+                this.store.dispatch(new UI.StopLoading) //dispatch to the store
                 this.uiService.showSanckbar(err.message, null, 3000)
             })
         this.handleSuccessfulAuthentication()
@@ -72,16 +73,16 @@ export class AuthService {
         // // whenever we login a user, we call authChange and pass it a value of true
         // this.authChange.next(true)// .next(cbf) is used like .emit() in angular
         // this.uiService.loadingStateChanged.next(true)
-        this.store.dispatch({type: 'START_LOADING'}) //dispatch this action to the store
+        this.store.dispatch(new UI.StartLoading) //dispatch this action to the store
 
         this.afAuth.signInWithEmailAndPassword(authData.email, authData.password)
             .then(res => {
                 // this.uiService.loadingStateChanged.next(false)
-                this.store.dispatch({type: 'STOP_LOADING'}) //dispatch to the store
+                this.store.dispatch(new UI.StopLoading) //dispatch to the store
             })
             .catch(err => {
                 // this.uiService.loadingStateChanged.next(false)
-                this.store.dispatch({type: 'STOP_LOADING'}) //dispatch to the store
+                this.store.dispatch(new UI.StopLoading)//dispatch to the store
                 this.uiService.showSanckbar(err.message, null, 3000)
             })
         this.handleSuccessfulAuthentication()
