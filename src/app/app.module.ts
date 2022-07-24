@@ -27,15 +27,11 @@ import { AuthModule } from './auth/auth.module';
 
 import { StoreModule } from '@ngrx/store'
 import { reducers } from './app.reducer'
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 
 @NgModule({
   declarations: [
-    StopTrainingComponent,
     AppComponent,
-    TrainingComponent,
-    CurrentComponent,
-    NewComponent,
-    PreviousComponent,
     WelcomeComponent,
     HeaderComponent,
     SidenavListComponent
@@ -43,6 +39,7 @@ import { reducers } from './app.reducer'
   imports: [
     AuthModule,
     AngularFireAuthModule,
+    AngularFirestoreModule,
     BrowserModule,
     AppRoutingModule,
     NoopAnimationsModule,
