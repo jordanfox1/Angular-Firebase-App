@@ -15,6 +15,7 @@ export class TrainingService {
     constructor(private db: AngularFirestore, private uiService: UIService) { }
     private exercises: Exercise[] = []
     private currentExercise: Exercise | any
+    
     // create an obervable which will emit whenever the currently performed exercise changes
     public exerciseChanged = new Subject<any>()
     exercisesChanged = new Subject<any>()
