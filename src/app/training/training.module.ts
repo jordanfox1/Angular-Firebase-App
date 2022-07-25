@@ -1,3 +1,4 @@
+import { StoreModule } from '@ngrx/store';
 import { TrainingRoutingModule } from './training-routing.module';
 import { StopTrainingComponent } from './current/stop-training.component';
 import { PreviousComponent } from './previous/previous.component';
@@ -7,7 +8,7 @@ import { TrainingComponent } from './training.component';
 import { NgModule } from "@angular/core";
 import { SharedModule } from '../shared/shared.module';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
-
+import { trainingReducer } from './training.reducer';
 
 
 @NgModule({
@@ -22,7 +23,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
         SharedModule,
         AngularFireAuthModule,
         TrainingRoutingModule,
-        // StoreModule.forFeature('training', trainingReducer)
+        StoreModule.forFeature('training', trainingReducer) // ('state', reducerFunction)
     ],
     entryComponents: [StopTrainingComponent]
 })

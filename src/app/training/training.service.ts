@@ -1,9 +1,13 @@
+import { StartLoading } from './../shared/ui.actions';
 import { UIService } from './../shared/ui.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Injectable } from '@angular/core';
 import { Exercise } from './exercise.model';
 import { map, Subject } from 'rxjs';
 import { Subscription } from "rxjs";
+import * as fromTraining from './training.reducer'
+import { Store } from '@ngrx/store';
+import * as Training from './training.actions'
 
 
 @Injectable({
@@ -12,10 +16,10 @@ import { Subscription } from "rxjs";
 export class TrainingService {
     private firebaseSubscriptions: Subscription[] = []
     private availableExercises: Array<any>
-    constructor(private db: AngularFirestore, private uiService: UIService) { }
+    constructor(private db: AngularFirestore, private uiService: UIService, private store: Store<fromTraining.State>) { }
     private exercises: Exercise[] = []
     private currentExercise: Exercise | any
-    
+
     // create an obervable which will emit whenever the currently performed exercise changes
     public exerciseChanged = new Subject<any>()
     exercisesChanged = new Subject<any>()
@@ -30,7 +34,8 @@ export class TrainingService {
             })
         ).subscribe((exercises: Array<any>) => {
             this.availableExercises = exercises
-            this.exercisesChanged.next([...this.availableExercises]) //emit an event every time the exercises on firebase update/get fetched
+            this.store.dispatch(new Training.SetAvailableTrainings(exercises))
+            // this.exercisesChanged.next([...this.availableExercises]) //emit an event every time the exercises on firebase update/get fetched
         }, error => {
             this.uiService.loadingStateChanged.next(false)
             this.uiService.showSanckbar('Fetching Exercises failed... tray again later', null, 3000)
@@ -55,8 +60,9 @@ export class TrainingService {
             date: new Date(),
             state: 'complete'
         })
-        this.currentExercise = null
-        this.exerciseChanged.next(null)
+        // this.currentExercise = null
+        // this.exerciseChanged.next(null)
+        this.store.dispatch(new Training.StopTraining())
 
         // this.exercises.push({ ...this.currentExercise, date: new Date(), state: 'completed' })
         // this.currentExercise = null
@@ -71,17 +77,18 @@ export class TrainingService {
             date: new Date(),
             state: 'cancelled'
         })
-        
+        this.store.dispatch(new Training.StopTraining())
+
         // this.exercises.push({ ...this.currentExercise, date: new Date(), state: 'cancelled', duration: this.currentExercise?.duration * (progress / 100), calories: this.currentExercise.duration * (progress / 100) })
-        this.currentExercise = null
-        this.exerciseChanged.next(null)
+        // this.currentExercise = null
+        // this.exerciseChanged.next(null)
     }
 
     getCompletedOrCancelledExercises() {
         this.firebaseSubscriptions.push(this.db.collection('/finishedExercises')
         .valueChanges()
         .subscribe((exercises: any) => {
-            this.finishedExercisesChanged.next(exercises)
+            this.store.dispatch(new Training.SetFinishedTrainings(exercises))
         } ))
         return this.exercises.slice()
     }
