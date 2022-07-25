@@ -46,8 +46,9 @@ export class TrainingService {
     startExcercise(selectedId: string) {
         // to update firestore document, you need to pass the parent collection/document ID. I didn't set the exercise ID to the name, So below is a hardcoded example
         // this.db.doc('avaliableExercises/'+ 'V1V0MbvRc6Ez9F65WiLN').update({lastSelected: new Date()})
-        this.currentExercise = this.availableExercises.find(ex => ex.id === selectedId)
-        this.exerciseChanged.next({ ...this.currentExercise })
+        // this.currentExercise = this.availableExercises.find(ex => ex.id === selectedId)
+        // this.exerciseChanged.next({ ...this.currentExercise })
+        this.store.dispatch(new Training.StartTraining(selectedId))
     }
 
     getCurrentExercise() {

@@ -6,6 +6,9 @@ import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/co
 import { Firestore, collectionData, collection, getDocs } from '@angular/fire/firestore'
 import { AngularFirestore } from '@angular/fire/compat/firestore'
 import { map } from 'rxjs/internal/operators/map';
+import * as fromTraining from '../training.reducer'
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../../app.reducer';
 
 @Component({
   selector: 'app-new',
@@ -18,24 +21,29 @@ export class NewComponent implements OnInit, OnDestroy {
   @ViewChild('input')
   collection: any
   input!: ElementRef;
-  exercises$: Array<any>
+  exercises$: Observable<Exercise[]>
   exerciseSubscription: Subscription
+  isLoading$: Observable<boolean>
 
   constructor(
     private trainingService: TrainingService,
     public firestore: Firestore,
-    private db: AngularFirestore
+    private db: AngularFirestore,
+    private store: Store<fromTraining.State>
   ) { }
 
 
   ngOnInit(): void {
-    this.exerciseSubscription = this.trainingService.exercisesChanged.subscribe(ex => this.exercises$ = ex)
-    this.trainingService.fetchAvailableExercisesFromDb();
+    // this.exerciseSubscription = this.trainingService.exercisesChanged.subscribe(ex => this.exercises$ = ex)
+    // this.trainingService.fetchAvailableExercisesFromDb();
+    this.isLoading$ = this.store.select(fromRoot.getIsLoading)
+    this.exercises$ =  this.store.select(fromTraining.getAvailableExercises)
+    this.trainingService.fetchAvailableExercisesFromDb()
   }
 
   onStart(f: NgForm): void {
     console.log(f)
-    this.trainingService.startExcercise(f.value.exercise)
+    this.trainingService.startExcercise(f?.value?.exercise)
   }
 
   addExercise(): void {

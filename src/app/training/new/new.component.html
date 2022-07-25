@@ -9,23 +9,11 @@
           {{ exc.description }}
         </mat-card-content>
         <mat-card-content>
-          <!-- <mat-form-field hintLabel="Max 10 characters" appearance="fill">
-            <mat-label>Enter an excercise to add to the list</mat-label>
-            <input matInput #input maxlength="10" placeholder="Ex. Hiking" />
-            <mat-hint align="end">{{ input.value?.length || 0 }}/10</mat-hint>
-          </mat-form-field> -->
-          <!-- <button
-            mat-button
-            color="primary"
-            (click)="addExercise()"
-          >
-            Add
-          </button> -->
           <br />
           <mat-form-field appearance="fill">
             <mat-label>Select from the list</mat-label>
             <mat-select ngModel name="exercise" required>
-              <mat-option *ngFor="let exc of exercises$" [value]="exc.name">{{
+              <mat-option *ngFor="let exc of exercises$ | async" [value]="exc.name">{{
                 exc.name
               }}</mat-option>
             </mat-select>
@@ -39,7 +27,3 @@
     </form>
   </section>
 </main>
-<!-- <p>{{exercises$}}</p> -->
-<!-- <div *ngFor="let e of exercises$;" >
-<p>{{e.name} foo</p>
-</div> -->
