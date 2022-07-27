@@ -15,7 +15,6 @@ export class AppComponent implements OnInit {
     this.authService.initAuthListener()
   }
 
-  // @ViewChild('sidenav')
   onToggle() {
     
   }

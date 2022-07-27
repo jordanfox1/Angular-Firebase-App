@@ -1,10 +1,8 @@
 import { TrainingService } from './../training/training.service';
 import { AuthData } from "./auth-data.model";
-import { User } from "./user.model";
 import { Subject } from "rxjs";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { ThisReceiver } from "@angular/compiler";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UIService } from '../shared/ui.service';
@@ -20,13 +18,13 @@ import * as Auth from './auth.actions'
 // service to handle authorization methods
 export class AuthService {
     authChange = new Subject<boolean>() // subject allows you to emit events from one part of the app, and subscribe to them in another
-    // private user: User | null | undefined;
     private isAuthenticatedUser = false
-                //accessing the gloabal store
+                //accessing the global store
     constructor(private store: Store<fromRoot.State>, private uiService: UIService, private snackbar: MatSnackBar, private router: Router, private afAuth: AngularFireAuth, private trainingService: TrainingService) { }
 
-    //call this when the app
+    // called in app.component/onInit()
     initAuthListener() {
+
         // emits an event onAuthStateChanged()
         this.afAuth.authState.subscribe(user => {
             if (user) {
@@ -35,10 +33,10 @@ export class AuthService {
                 this.authChange.next(true);
                 this.router.navigate(['/training'])
             } else {
-                
                 this.trainingService.cancelSubscriptions()
-                // whenever we logout a user, we call authChange and pass it a value of false
                 this.store.dispatch(new Auth.SetUnauthenticated())
+
+                // whenever we logout a user, we call authChange and pass it a value of false
                 this.authChange.next(false)// .next(cbf) is used like .emit() in angular
                 this.isAuthenticatedUser = false
                 this.router.navigate(['login'])
@@ -47,12 +45,6 @@ export class AuthService {
     }
 
     signUp(authData: AuthData) {
-        // this.user = {
-        //     email: authData.email,
-        //     userId: Math.round(Math.random() * 10000).toString()
-        // };
-        // // whenever we register a user, we call authChange and pass it a value of true
-        // this.authChange.next(true)// .next(cbf) is used like .emit() in angular
 
         this.store.dispatch(new UI.StartLoading) //dispatch this action to the store
         this.afAuth.createUserWithEmailAndPassword(authData.email, authData.password)
@@ -60,7 +52,6 @@ export class AuthService {
                 this.uiService.loadingStateChanged.next(false)
             })
             .catch(err => {
-                // this.uiService.loadingStateChanged.next(false)
                 this.store.dispatch(new UI.StopLoading) //dispatch to the store
                 this.uiService.showSanckbar(err.message, null, 3000)
             })
@@ -69,22 +60,13 @@ export class AuthService {
     }
 
     login(authData: AuthData) {
-        // this.user = {
-        //     email: authData.email,
-        //     userId: Math.round(Math.random() * 10000).toString()
-        // }
-        // // whenever we login a user, we call authChange and pass it a value of true
-        // this.authChange.next(true)// .next(cbf) is used like .emit() in angular
-        // this.uiService.loadingStateChanged.next(true)
         this.store.dispatch(new UI.StartLoading) //dispatch this action to the store
 
         this.afAuth.signInWithEmailAndPassword(authData.email, authData.password)
             .then(res => {
-                // this.uiService.loadingStateChanged.next(false)
                 this.store.dispatch(new UI.StopLoading) //dispatch to the store
             })
             .catch(err => {
-                // this.uiService.loadingStateChanged.next(false)
                 this.store.dispatch(new UI.StopLoading)//dispatch to the store
                 this.uiService.showSanckbar(err.message, null, 3000)
             })
@@ -92,16 +74,10 @@ export class AuthService {
     }
 
     logout() {
-        // this.user = null;
         this.uiService.loadingStateChanged.next(true)
         this.afAuth.signOut()
-        // cancel all subscribed observables when logging out
         this.uiService.loadingStateChanged.next(false)
     }
-
-    // getUser() {
-    //     return { ...this.user };
-    // }
 
     isAuthenticated() {
         return this.isAuthenticatedUser;

@@ -48,6 +48,7 @@ export class TrainingService {
         // this.db.doc('avaliableExercises/'+ 'V1V0MbvRc6Ez9F65WiLN').update({lastSelected: new Date()})
         // this.currentExercise = this.availableExercises.find(ex => ex.id === selectedId)
         // this.exerciseChanged.next({ ...this.currentExercise })
+        
         this.store.dispatch(new Training.StartTraining(selectedId))
     }
 
@@ -61,13 +62,7 @@ export class TrainingService {
             date: new Date(),
             state: 'complete'
         })
-        // this.currentExercise = null
-        // this.exerciseChanged.next(null)
         this.store.dispatch(new Training.StopTraining())
-
-        // this.exercises.push({ ...this.currentExercise, date: new Date(), state: 'completed' })
-        // this.currentExercise = null
-        // this.exerciseChanged.next(null)
     }
 
     cancelExercise(progress: number) {

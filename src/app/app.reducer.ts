@@ -1,6 +1,6 @@
 import * as fromAuth from './auth/auth.reducer'
 import * as fromUi from './shared/ui.reducer'
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store'
+import { createFeatureSelector, createSelector } from '@ngrx/store'
 
 
 //define application wide state
@@ -18,5 +18,5 @@ export const reducers: any = {
 export const getUiState = createFeatureSelector<fromUi.State>('ui')
 export const getIsLoading = createSelector(getUiState, fromUi.getIsLoading)
 
-export const getAuthState = createFeatureSelector<fromAuth.State>('auth') // this is what you will get when you access the auth pice of state
-export const getIsAuth = createSelector(getAuthState,fromAuth.getIsAuthenticated)
+export const getAuthState = createFeatureSelector<fromAuth.State>('auth') // this is what you will get when you access the auth piece of state
+export const getIsAuth = createSelector(getAuthState, fromAuth.getIsAuthenticated)

@@ -20,10 +20,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = this.store.select(fromRoot.getIsLoading) //subscribe to the store
-
-    // this.loadingSub = this.uiService.loadingStateChanged.subscribe(loadingState => {
-    //   this.isLoading = loadingState
-    // })
   }
 
   onSubmit(form: any) {
@@ -35,10 +31,4 @@ export class LoginComponent implements OnInit {
       password: form.value.password
     })
   }
-
-  // ngOnDestroy() {
-  //   if (this.loadingSub) {
-  //     this.loadingSub.unsubscribe()
-  //   }
-  // }
 }
