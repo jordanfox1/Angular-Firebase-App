@@ -1,6 +1,6 @@
 # FitnessTracker
 
-Example of an angular application that implements firestore and firebase login for persistent storgage and authentication respectively. It also uses NGRX as for frontend state management.
+Example of an angular application that implements firestore and firebase login for persistent storgage and authentication respectively. It also uses NGRX for frontend state management.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.1.
 
